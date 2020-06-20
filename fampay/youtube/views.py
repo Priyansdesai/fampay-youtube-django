@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from .models import VideoData
 
 # Arguments that need to passed to the build function 
-#DEVELOPER_KEY = "AIzaSyCSUrYVE0GsjxVJLD290DV9tOFecytLZ6Y" 
+#DEVELOPER_KEY = "" 
 #YOUTUBE_API_SERVICE_NAME = "youtube"
 #YOUTUBE_API_VERSION = "v3"
    
@@ -46,5 +46,5 @@ def index(request):
         if new_obj not in list(VideoData.objects.all()):
             new_obj.save()"""
     for a in VideoData.objects.all():
-        print(a)
+        print(a.name())
     return render(request, 'index.html', {"videos":"HELLO"})
