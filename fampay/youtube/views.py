@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from apiclient.discovery import build 
 from django.http import HttpResponse
+from .models import VideoData
 
 # Arguments that need to passed to the build function 
-DEVELOPER_KEY = "AIzaSyDjoVQ-cpwwmAAjmF2Uc7ECxzcgrPPG9pQ" 
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
+#DEVELOPER_KEY = "AIzaSyCSUrYVE0GsjxVJLD290DV9tOFecytLZ6Y" 
+#YOUTUBE_API_SERVICE_NAME = "youtube"
+#YOUTUBE_API_VERSION = "v3"
    
 # creating Youtube Resource Object 
-youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, 
-                                        developerKey = DEVELOPER_KEY) 
+#youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, 
+                                        #developerKey = DEVELOPER_KEY) 
    
 def youtube_search_keyword(query, max_results): 
        
@@ -29,9 +30,9 @@ def youtube_search_keyword(query, max_results):
     for result in results: 
         # video result object 
         if result['id']['kind'] == "youtube#video": 
-            videos.append("% s (% s) (% s) (% s)" % (result["snippet"]["title"], 
+            videos.append([result["snippet"]["title"], 
                             result["id"]["videoId"], result['snippet']['description'], 
-                            result['snippet']['thumbnails']['default']['url'])) 
+                            result['snippet']['thumbnails']['default']['url']]) 
   
         # playlist result object
     return videos
@@ -39,5 +40,11 @@ def youtube_search_keyword(query, max_results):
 # Create your views here.
 
 def index(request):
-	return render(request, 'index.html', {"videos":youtube_search_keyword('Cricket', 10)})
-   
+    #received = youtube_search_keyword('Cricket', 10)
+    """for result in received:
+        new_obj = VideoData(1, result[0], result[2], result[3], result[1])
+        if new_obj not in list(VideoData.objects.all()):
+            new_obj.save()"""
+    for a in VideoData.objects.all():
+        print(a)
+    return render(request, 'index.html', {"videos":"HELLO"})
