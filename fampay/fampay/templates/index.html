@@ -6,20 +6,29 @@
  <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
-
+<style> 
+.top caption {
+  caption-side: top;
+}
+</style>
 <script src="//code.jquery.com/jquery-1.12.4.js"></script>
 <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 </head>
 <body>
-        <table id="example" class="table table-bordered display" style="width:100%">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <table id="example" class="table table-bordered display top" style="width:100%">
+            <caption style="caption-side: top">YouTube Video Searches for Cricket (Updates every 10 seconds)</caption>
           <thead>
              <tr>
                 <th>ID</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Unique ID</th>
-                <th>URL</th>
+                <th>Thumbnail URL</th>
+                <th> Published At </th>
             </tr>
           </thead>
           <tbody>
@@ -30,6 +39,7 @@
             <td> {{x.description}} </td>
             <td> {{x.unique_id}} </td>
             <td> {{x.url}} </td>
+            <td> {{x.published_at}}</td>
           <tr>
           {% endfor %}
         </tbody>
@@ -39,12 +49,15 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Unique ID</th>
-                <th>URL</th>
+                <th>Thumbnail URL</th>
+                <th> Published At </th>
             </tr>
           </tfoot>
         </table>
-<meta http-equiv="refresh" content="30">
-<p> {{data}} </p>
+        </div>
+    </div>
+  </div>
+  <meta http-equiv="refresh" content="10">
 </body>
 
 <script>
@@ -57,7 +70,8 @@
         { "data" : "title"}, //col 2
         { "data":"description" }, //col 3
         { "data":"unique_id"}, //col 4
-        { "data":"url" }, //col 5
+        { "data":"url" },
+        {"date": "published_at"} //col 5
         ]
     }
       );

@@ -22,6 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '6l2v$-)(=jse!$)4w60r(1i%5l^jwlv$uidbp-i1e#g(@of(44'
 
+DEVELOPER_KEY = "" 
+YOUTUBE_API_SERVICE_NAME = "youtube"
+YOUTUBE_API_VERSION = "v3"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

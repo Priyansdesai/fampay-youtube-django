@@ -3,27 +3,29 @@ from apiclient.discovery import build
 from django.http import HttpResponse
 from .models import VideoData
 from datetime import datetime
-import os
+from django.conf import settings
+
+YOUTUBE_API_VERSION = settings.YOUTUBE_API_VERSION
+YOUTUBE_API_SERVICE_NAME = settings.YOUTUBE_API_SERVICE_NAME
+DEVELOPER_KEY = settings.DEVELOPER_KEY
 
 
 file1 = open("date.txt","r+")  
 new_date = file1.read()
 if int(new_date) < 10:
     new_date = "0" + new_date
-new_date_final = "2015-" + new_date + "-01T00:00:00Z"
+new_date_final = "2018-01-" + new_date + "T00:00:00Z"
 file1.close()
 file1 = open("date.txt", "w+")
 file1.write(str(int(new_date) + 1))
 file1.close()
 
 # Arguments that need to passed to the build function 
-DEVELOPER_KEY = "" 
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
+
    
 # creating Youtube Resource Object 
 youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, 
-                                      developerKey = DEVELOPER_KEY) 
+                                    developerKey = DEVELOPER_KEY) 
 
 def youtube_search_keyword(query, max_results): 
        
@@ -46,26 +48,34 @@ def youtube_search_keyword(query, max_results):
         if result['id']['kind'] == "youtube#video": 
             videos.append([result["snippet"]["title"], 
                             result["id"]["videoId"], result['snippet']['description'], 
-                            result['snippet']['thumbnails']['default']['url']]) 
+                            result['snippet']['thumbnails']['default']['url'], result['snippet']['publishedAt']]) 
   
         # playlist result object
     return videos
 
 def index(request):
-    received = youtube_search_keyword('Cricket', 2)
-    for i in range(len(received)):
-        result = received[i]
-        new_obj = VideoData(i, result[0], result[2], result[3], result[1])
-        if new_obj not in list(VideoData.objects.all()):
-            new_obj.save()
-    data = []
-    for a in VideoData.objects.all():
-        new_dict = {}
-        new_dict['id'] = a.id
-        new_dict['title'] = a.title
-        new_dict['description'] = a.description
-        new_dict['url'] = a.url
-        new_dict['unique_id'] = a.unique_id
-        print(a.unique_id)
-        data.append(new_dict)
-    return render(request, 'index.html', {"data":data})
+	data = []
+	file1 = open("total.txt","r+")  
+	new_total = file1.read()
+	new_total_final = int(new_total)
+	file1.close()
+	file1 = open("total.txt", "w+")
+	file1.write(str(int(new_total) + 1))
+	file1.close()
+	received = youtube_search_keyword('Cricket', new_total_final)
+	for i in range(len(received)):
+		result = received[i]
+		new_obj = VideoData(i, result[0], result[2], result[3], result[1], result[4])
+		if new_obj not in list(VideoData.objects.all()):
+			new_obj.save()
+	data = []
+	for a in VideoData.objects.all():
+		new_dict = {}
+		new_dict['id'] = a.id
+		new_dict['title'] = a.title
+		new_dict['description'] = a.description
+		new_dict['url'] = a.url
+		new_dict['unique_id'] = a.unique_id
+		new_dict['published_at'] = a.published_at
+		data.append(new_dict)
+	return render(request, 'index.html', {"data":data})
