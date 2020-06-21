@@ -1,15 +1,14 @@
 # fampay-youtube-django
 
-First, we will install all the required packages for this demo. 
+This app is written in the Django framework. This app fetches YouTube videos published after 1st January 2018 in the beginning and then updates the date to be a day later than its previous date, every 10 seconds, fetching new database. 
 
+First, we need to clone this Git repository. Run the command below in whichever directory you wish this project to be. 
 ```sh
-$ sudo apt-get install nginx supervisor python3-pip python3-virtualenv
+$ git clone https://github.com/Priyansdesai/fampay-youtube-django.git
 ```
-Then we will create a virtual environment called venv in our project directory.
+Then, we will have to install the requirements for this Project. So, running the command below will do so. Make sure you have pip installed on the system you are running this app on.  
 ```sh
-$ mkdir myproj
-$ cd myproj
-$ virtualenv venv
+$ pip install -r requirements.txt
 ```
 Then we will activate the virtual environment
 ```sh
